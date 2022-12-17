@@ -31,3 +31,6 @@ modelo expired  payments
 class Expired_payments(models.Model):
     payment_user_id = models.ForeignKey(Payment_user,on_delete=models.CASCADE)
     penalty_fee_amount= models.IntegerField()
+
+    class Meta:
+        db_table = "expired_payments"
