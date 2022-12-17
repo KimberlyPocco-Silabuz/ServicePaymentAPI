@@ -6,8 +6,8 @@ modelo servicios trabaja con el user por default de django
 '''
 class Services(models.Model):
     name = models.CharField(max_length=100) 
-    Description = models.TextField()
-    Logo = models.CharField(max_length=100)
+    description = models.TextField()
+    logo = models.CharField(max_length=100)
     
     class Meta:
         db_table = "services"
