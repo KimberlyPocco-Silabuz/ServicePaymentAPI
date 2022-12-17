@@ -13,7 +13,7 @@ class Services(models.Model):
         db_table = "services"
 
 '''
-modelo payment
+modelo payment 
 '''
 class Payment_user(models.Model):
     user_id = models.ForeignKey(User,on_delete=models.CASCADE)
