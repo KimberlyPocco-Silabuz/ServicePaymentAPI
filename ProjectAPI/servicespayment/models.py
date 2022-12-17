@@ -18,7 +18,7 @@ modelo payment
 class Payment_user(models.Model):
     user_id = models.ForeignKey(User,on_delete=models.CASCADE)
     service_id = models.ForeignKey(Services,on_delete=models.CASCADE)
-    amount = models.CharField(max_length=100)
+    amount = models.IntegerField()
     paymentDate = models.DateTimeField()
     expirationDate = models.DateTimeField()
     
