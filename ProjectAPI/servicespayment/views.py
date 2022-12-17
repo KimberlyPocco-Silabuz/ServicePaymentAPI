@@ -3,4 +3,9 @@ from django.http.response import HttpResponse
 
 # Create your views here.
 def index(request):
+<<<<<<< HEAD
     return HttpResponse("index prueba/ rama creada")
+=======
+    return HttpResponse("index prueba")
+    
+>>>>>>> kimberlypocco
