@@ -1,76 +1,64 @@
-from rest_framework.viewsets import ModelViewSet, ReadOnlyModelViewSet
+from rest_framework.viewsets import ModelViewSet,ViewSet, ReadOnlyModelViewSet
 from .models import Services, Payment_user, Expired_payments
 from .serializers import ServicesSerializer, Payment_userSerializer, Expired_paymentSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework import filters
+from django.shortcuts import get_object_or_404
 
 '''
 CRUD de modelo servicios
 '''
 class ServicesViewSet(ModelViewSet):
-    queryset = Services.objects.all()
-     
-    def get_serializer_class(self):
-        return ServicesSerializer
-
-    def list(self, request):
-        pass
-    def create(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
-
-    def retrieve(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
-
-    def update(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
-
-    def partial_update(self, request, *args, **kwargs):
-        return super().partial_update(request, *args, **kwargs)
-
+    #permission_classes=[IsAdminUser] todavia ver una forma de validar
+    serializer_class = ServicesSerializer
+    
+    #trae todos los metodos crud por id 
+    def get_object(self, queryset=None, **kwargs):
+        item_services= self.kwargs.get('pk')
+        return get_object_or_404(Services, id=item_services)
+        #trae todos los crud por id llama al item servicio 
+        #Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
+        #http://127.0.0.1:8000/services-payment/services/id
+        #http://127.0.0.1:8000/services-payment/services/1
+    
+    #definir el queryset custom o personalizado
+    def get_queryset(self):
+        return Services.objects.all()
+        #hace el get y post (create y list)
+        #Allow: GET, POST, HEAD, OPTIONS
+        ##http://127.0.0.1:8000/services-payment/services/
+   
 
 '''
 CRUD de modelo payments_user
 '''
 class Payment_userViewSet(ModelViewSet):
-    queryset = Payment_user.objects.all()
+    serializer_class = Payment_userSerializer
 
-    def get_serializer_class(self):
-        return Payment_userSerializer
-
-    def list(self, request):
-        pass
-    def create(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
-
-    def retrieve(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
-
-    def update(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
-
-    def partial_update(self, request, *args, **kwargs):
-        return super().partial_update(request, *args, **kwargs)
-
+     #trae todos los metodos crud por id 
+    def get_object(self, queryset=None, **kwargs):
+        item_payment= self.kwargs.get('pk')
+        return get_object_or_404(Payment_user, id=item_payment)
+        #http://127.0.0.1:8000/services-payment/payment-user/1
+    
+    #definir el queryset custom o personalizado
+    def get_queryset(self):
+        return Payment_user.objects.all()
+        #http://127.0.0.1:8000/services-payment/payment-user/
 
 '''
 CRUD de modelo servicios
 '''
 class Expired_paymentsViewSet(ModelViewSet):
-    queryset = Expired_payments.objects.all()
-
-    def get_serializer_class(self):
-        return Expired_paymentSerializer
-
-    def list(self, request):
-        pass
-    def create(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
-
-    def retrieve(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
-
-    def update(self, request, *args, **kwargs):
-        return super().update(request, *args, **kwargs)
-
-    def partial_update(self, request, *args, **kwargs):
-        return super().partial_update(request, *args, **kwargs)
+    serializer_class = Expired_paymentSerializer
+    
+     #trae todos los metodos crud por id 
+    def get_object(self, queryset=None, **kwargs):
+        item_expiredpay= self.kwargs.get('pk')
+        return get_object_or_404(Expired_payments, id=item_expiredpay)
+        #http://127.0.0.1:8000/services-payment/expired-payments/1
+    
+    #definir el queryset custom o personalizado
+    def get_queryset(self):
+        return Expired_payments.objects.all()
+        #http://127.0.0.1:8000/services-payment/expired-payments/
