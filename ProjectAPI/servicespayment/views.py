@@ -39,6 +39,8 @@ class Payment_userViewSet(ModelViewSet):
     def get_object(self, queryset=None, **kwargs):
         item_payment= self.kwargs.get('pk')
         return get_object_or_404(Payment_user, id=item_payment)
+        #crea un registro primero para poner el 1 que es el primer id 
+        #http://127.0.0.1:8000/services-payment/payment-user/id
         #http://127.0.0.1:8000/services-payment/payment-user/1
     
     #definir el queryset custom o personalizado
