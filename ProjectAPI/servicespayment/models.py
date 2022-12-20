@@ -1,9 +1,8 @@
 from django.db import models
 from users.models import User
 
-'''
-modelo servicios trabaja con el user por default de django
-'''
+
+#MODELO  SERVICES
 class Services(models.Model):
     name = models.CharField(max_length=100) 
     description = models.TextField()
@@ -16,9 +15,7 @@ class Services(models.Model):
         db_table = "services"
     
 
-'''
-modelo payment 
-'''
+#MODELO  PAYMENTS USER
 class Payment_user(models.Model):
     @property
     def username(self):
@@ -37,9 +34,7 @@ class Payment_user(models.Model):
     class Meta:
         db_table = "payment_user"
 
-'''
-modelo expired  payments
-'''
+#MODELO EXPIRED PAYMENTS
 class Expired_payments(models.Model):
     @property
     def username(self):
@@ -51,9 +46,8 @@ class Expired_payments(models.Model):
     payment_user_id = models.ForeignKey(Payment_user,on_delete=models.CASCADE)
     penalty_fee_amount= models.IntegerField()
 
-    # def __str__(self):
-    #    # print(self.payment_user_id.user_id.username)
-    #     return self.payment_user_id.user_id.username
+    def __str__(self):
+        return self.payment_user_id.user_id.username
 
     class Meta:
         db_table = "expired_payments"

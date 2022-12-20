@@ -52,26 +52,10 @@ class LoginView(APIView):
         return Response(data=content, status=status.HTTP_200_OK)
 
 
-# class GetUsers(viewsets.ReadOnlyModelViewSet):
-#     serializer_class = GetUserSerializer
-#     queryset = User.objects.all()
-
-
-
-
-#CON CLASE MODELOVIEWSET
-class UserViewSet(ModelViewSet):
+class GetUsers(viewsets.ReadOnlyModelViewSet):
     serializer_class = GetUserSerializer
-    # permission_classes=[IsAuthenticated]
-    # if User.check_password== permission_classes:
-    def get_object(self, queryset=None, **kwargs):
-        item_user= self.kwargs.get('pk')
-        return get_object_or_404(User, id=item_user)
+    queryset = User.objects.all()
 
-    def get_queryset(self):
-        return User.objects.all()
-
-    #trae todos los metodos crud por id 
 
 
     
