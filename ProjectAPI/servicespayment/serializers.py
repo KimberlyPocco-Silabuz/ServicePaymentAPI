@@ -14,10 +14,10 @@ class Payment_userSerializer(ModelSerializer):
 
     class Meta:
         model = Payment_user
-        fields = ('amount','paymentDate','expirationDate','user_id','username','service_id','servicename' )
+        fields = ('id','amount','paymentDate','expirationDate','user_id','username','service_id','servicename' )
     
 
 class Expired_paymentSerializer(ModelSerializer):
     class Meta:
         model = Expired_payments
-        fields = ('payment_user_id','user_id','username','penalty_fee_amount', )
+        fields = ('id','payment_user_id','user_id','username','penalty_fee_amount', )

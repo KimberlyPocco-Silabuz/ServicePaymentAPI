@@ -4,17 +4,20 @@ from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from rest_framework.viewsets import ModelViewSet
 from .serializers import SignUpSerializer, GetUserSerializer
 from .tokens import create_jwt_pair_for_user
 from rest_framework import viewsets
 from .models import User
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
-
+#CON CLASE GENERIC APIVIEW
 class SignUpView(generics.GenericAPIView):
     serializer_class = SignUpSerializer
 
+    
     def post(self, request: Request):
         data = request.data
 
@@ -29,9 +32,8 @@ class SignUpView(generics.GenericAPIView):
 
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
+#CON CLASE APIVIEW
 class LoginView(APIView):
-
     def post(self, request: Request):
         email = request.data.get("email")
         password = request.data.get("password")
@@ -39,7 +41,6 @@ class LoginView(APIView):
         user = authenticate(email=email, password=password)
         if user is not None:
             tokens = create_jwt_pair_for_user(user)
-
             response = {"message": "Logeado correctamente", "email": email ,"tokens": tokens}
             return Response(data=response, status=status.HTTP_200_OK)
 
@@ -51,6 +52,26 @@ class LoginView(APIView):
         return Response(data=content, status=status.HTTP_200_OK)
 
 
-class GetUsers(viewsets.ReadOnlyModelViewSet):
+# class GetUsers(viewsets.ReadOnlyModelViewSet):
+#     serializer_class = GetUserSerializer
+#     queryset = User.objects.all()
+
+
+
+
+#CON CLASE MODELOVIEWSET
+class UserViewSet(ModelViewSet):
     serializer_class = GetUserSerializer
-    queryset = User.objects.all()
+    # permission_classes=[IsAuthenticated]
+    # if User.check_password== permission_classes:
+    def get_object(self, queryset=None, **kwargs):
+        item_user= self.kwargs.get('pk')
+        return get_object_or_404(User, id=item_user)
+
+    def get_queryset(self):
+        return User.objects.all()
+
+    #trae todos los metodos crud por id 
+
+
+    

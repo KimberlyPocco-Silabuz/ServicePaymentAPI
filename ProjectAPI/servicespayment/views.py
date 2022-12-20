@@ -1,7 +1,7 @@
 from rest_framework.viewsets import ModelViewSet,ViewSet, ReadOnlyModelViewSet
 from .models import Services, Payment_user, Expired_payments
 from .serializers import ServicesSerializer, Payment_userSerializer, Expired_paymentSerializer
-from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly
+from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from rest_framework import filters
 from django.shortcuts import get_object_or_404
 
@@ -9,12 +9,13 @@ from django.shortcuts import get_object_or_404
 CRUD de modelo servicios
 '''
 class ServicesViewSet(ModelViewSet):
-    #permission_classes=[IsAdminUser] todavia ver una forma de validar
+    
     serializer_class = ServicesSerializer
     
     #trae todos los metodos crud por id 
     def get_object(self, queryset=None, **kwargs):
         item_services= self.kwargs.get('pk')
+       
         return get_object_or_404(Services, id=item_services)
         #trae todos los crud por id llama al item servicio 
         #Allow: GET, PUT, PATCH, DELETE, HEAD, OPTIONS
@@ -23,6 +24,7 @@ class ServicesViewSet(ModelViewSet):
     
     #definir el queryset custom o personalizado
     def get_queryset(self):
+        permission_classes=[AllowAny] 
         return Services.objects.all()
         #hace el get y post (create y list)
         #Allow: GET, POST, HEAD, OPTIONS
