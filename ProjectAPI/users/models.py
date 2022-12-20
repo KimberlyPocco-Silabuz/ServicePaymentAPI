@@ -36,5 +36,6 @@ class User(AbstractUser):
         return self.email
 
     class Meta:
-        db_table = "users"
+        db_table = "users" 
 
+ 

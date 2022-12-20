@@ -1,9 +1,8 @@
 from rest_framework import serializers
-from .models import User
-
-from rest_framework import serializers
 from rest_framework.authtoken.models import Token
 from rest_framework.validators import ValidationError
+from .models import User
+from rest_framework import serializers
 
  
 class SignUpSerializer(serializers.ModelSerializer):
@@ -34,10 +33,11 @@ class SignUpSerializer(serializers.ModelSerializer):
         return user
 
 class GetUserSerializer(serializers.ModelSerializer):
+    
     email = serializers.CharField(max_length=80)
     username = serializers.CharField(max_length=45)
     password = serializers.CharField(min_length=8, write_only=True)
 
     class Meta:
         model = User
-        fields = ["id","email", "username", "password"]    
+        fields = ["email", "username", "password"]      

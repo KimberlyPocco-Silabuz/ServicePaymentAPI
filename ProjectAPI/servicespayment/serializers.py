@@ -20,4 +20,4 @@ class Payment_userSerializer(ModelSerializer):
 class Expired_paymentSerializer(ModelSerializer):
     class Meta:
         model = Expired_payments
-        fields = ('id','payment_user_id','user_id','username','penalty_fee_amount', )
+        fields = ('id','payment_user_id','user_id','username','servicename','penalty_fee_amount', )

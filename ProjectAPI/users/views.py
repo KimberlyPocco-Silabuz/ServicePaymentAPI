@@ -9,7 +9,6 @@ from .serializers import SignUpSerializer, GetUserSerializer
 from .tokens import create_jwt_pair_for_user
 from rest_framework import viewsets
 from .models import User
-from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser
 from django.shortcuts import get_object_or_404
 # Create your views here.
 
@@ -33,12 +32,13 @@ class SignUpView(generics.GenericAPIView):
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 #CON CLASE APIVIEW
-class LoginView(APIView):
+class LoginView(APIView): 
     def post(self, request: Request):
         email = request.data.get("email")
         password = request.data.get("password")
 
         user = authenticate(email=email, password=password)
+        
         if user is not None:
             tokens = create_jwt_pair_for_user(user)
             response = {"message": "Logeado correctamente", "email": email ,"tokens": tokens}
@@ -51,11 +51,11 @@ class LoginView(APIView):
         content = {"user": str(request.user), "auth": str(request.auth)}
         return Response(data=content, status=status.HTTP_200_OK)
 
-
+#SOLO DE LECTURA
 class GetUsers(viewsets.ReadOnlyModelViewSet):
     serializer_class = GetUserSerializer
     queryset = User.objects.all()
 
 
 
-    
+     

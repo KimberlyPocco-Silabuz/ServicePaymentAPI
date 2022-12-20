@@ -1,25 +1,22 @@
-from rest_framework.viewsets import ModelViewSet,ViewSet, ReadOnlyModelViewSet
+from rest_framework.viewsets import ModelViewSet
 from .models import Services, Payment_user, Expired_payments
 from .serializers import ServicesSerializer, Payment_userSerializer, Expired_paymentSerializer
-from rest_framework.permissions import IsAuthenticated
-from rest_framework import filters
 from django.shortcuts import get_object_or_404
-from rest_framework import status
+from rest_framework import filters, status
+from datetime import datetime
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework.throttling import UserRateThrottle
+import random
+
 
 #CRUD SERVICCES VIEWSET
 class ServicesViewSet(ModelViewSet):
-    
-   
-    permission_classes = [IsAuthenticated]
-    queryset = Services.objects.all()
+   #permission_classes = [IsAuthenticated]
     serializer_class = ServicesSerializer
+    throttle_scope = 'anon'
 
-    throttle_scope = 'users'
-
-    # def get_queryset(self):
-    #     return Services.objects.all()
+    def get_queryset(self):
+        return Services.objects.all()
    
     def get_object(self, queryset=None, **kwargs):
         item_services= self.kwargs.get('pk')
@@ -27,14 +24,20 @@ class ServicesViewSet(ModelViewSet):
        
 
        
-#CRUD PAYMENT USER VIEWSET
+#CRUD PAYMENT USER VIEWSET se trabaja con cada metodo uno para admin y user respectivamente
 class Payment_userViewSet(ModelViewSet):
   
     queryset = Payment_user.objects.all()
+    serializer_class = Payment_userSerializer
+    filter_backends =  [filters.SearchFilter,filters.OrderingFilter]
+    filterset_fields = ['paymentDate','expirationDate']
+    search_fields = ['paymentDate','expirationDate']
+    ordering = ('-id')
+    throttle_scope = 'user'
+
 
     def get_serializer_class(self, *args, **kwargs):
         return Payment_userSerializer
-
 
     def list(self, request, *args):
         page = self.paginate_queryset(self.queryset)
@@ -43,19 +46,20 @@ class Payment_userViewSet(ModelViewSet):
             return self.get_paginated_response(serializer.data)
 
         serializer = self.get_serializer(self.queryset, many=True)
-        return Response(serializer.data)
+        return Response(serializer.data)  
+    
+    def create(self, request, *args, **kwargs):
+        new_user_payment = super().create(request, *args, **kwargs)
+        payment_date = datetime.strptime(request.data['paymentDate'], '%Y-%m-%d')
+        expiration_date = datetime.strptime(request.data['expirationDate'], '%Y-%m-%d')
 
-    def create(self, request, *args):
-        if isinstance(request.data, list):
-            serializer = Payment_userSerializer(data=request.data, many = True)
-        else:
-            serializer = Payment_userSerializer(data=request.data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        #cuando la fecha de pago es mayor que la fecha de expiracion se agrgara una penalidad random
+        if payment_date > expiration_date:
+            new_expired_payment = Expired_payments()
+            new_expired_payment.penalty_fee_amount = random.randint(15, 150)
+            new_expired_payment.payment_user_id_id= new_user_payment.data['id']
+            new_expired_payment.save()
+        return new_user_payment
 
     def retrieve(self, request, pk=None):
         todo = get_object_or_404(self.queryset, pk=pk)
@@ -72,8 +76,6 @@ class Payment_userViewSet(ModelViewSet):
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-
     def destroy(self, request, pk=None):
         todo = get_object_or_404(self.queryset, pk=pk)
         todo.delete()
@@ -84,6 +86,8 @@ class Payment_userViewSet(ModelViewSet):
 #CRUD EXPIRED PAYMENTS VIEWSET
 class Expired_paymentsViewSet(ModelViewSet):
     serializer_class = Expired_paymentSerializer
+    throttle_scope = 'anon'
+    
     def get_queryset(self):
         return Expired_payments.objects.all()
 

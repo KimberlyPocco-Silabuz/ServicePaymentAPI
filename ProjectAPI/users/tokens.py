@@ -9,4 +9,4 @@ def create_jwt_pair_for_user(user: User):
     #probar el tiempo de vida.
     tokens = {"access": str(refresh.access_token), "refresh": str(refresh), "lifetime": refresh.lifetime }
     
-    return tokens 
+    return tokens

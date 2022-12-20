@@ -14,4 +14,4 @@ urlpatterns = [
     path("jwt/verify/", TokenVerifyView.as_view(), name="token_verify"),
 ]
 
-urlpatterns += router_user.urls
+urlpatterns += router_user.urls 
