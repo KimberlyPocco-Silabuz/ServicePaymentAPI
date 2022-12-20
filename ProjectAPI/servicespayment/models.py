@@ -31,12 +31,15 @@ class Payment_user(models.Model):
     user_id = models.ForeignKey(User,on_delete=models.CASCADE)
     service_id = models.ForeignKey(Services,on_delete=models.CASCADE)
     amount = models.IntegerField()
-    paymentDate = models.DateTimeField()
-    expirationDate = models.DateTimeField()
+    paymentDate = models.DateField()
+    expirationDate = models.DateField()
     
     class Meta:
         db_table = "payment_user"
 
+    def __str__(self):
+
+        return self.user_id.username + " - " + self.service_id.name
 '''
 modelo expired  payments
 '''
@@ -45,6 +48,7 @@ class Expired_payments(models.Model):
     def username(self):
         return self.payment_user_id.user_id.username
 
+    @property
     def user_id(self):
         return self.payment_user_id.pk
 
@@ -52,8 +56,7 @@ class Expired_payments(models.Model):
     penalty_fee_amount= models.IntegerField()
 
     def __str__(self):
-       # print(self.payment_user_id.user_id.username)
-        return self.payment_user_id.user_id.username
+        return self.payment_user_id.paymentDate
 
     class Meta:
         db_table = "expired_payments"

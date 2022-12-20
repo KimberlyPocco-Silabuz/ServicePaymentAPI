@@ -4,6 +4,7 @@ from .serializers import ServicesSerializer, Payment_userSerializer, Expired_pay
 from rest_framework.permissions import IsAuthenticated, AllowAny, IsAdminUser, IsAuthenticatedOrReadOnly
 from rest_framework import filters
 from django.shortcuts import get_object_or_404
+from rest_framework import filters
 
 '''
 CRUD de modelo servicios
@@ -34,6 +35,8 @@ CRUD de modelo payments_user
 '''
 class Payment_userViewSet(ModelViewSet):
     serializer_class = Payment_userSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['paymentDate', 'expirationDate']
 
      #trae todos los metodos crud por id 
     def get_object(self, queryset=None, **kwargs):
@@ -55,7 +58,7 @@ CRUD de modelo servicios
 '''
 class Expired_paymentsViewSet(ModelViewSet):
     serializer_class = Expired_paymentSerializer
-    
+
      #trae todos los metodos crud por id 
     def get_object(self, queryset=None, **kwargs):
         item_expiredpay= self.kwargs.get('pk')
