@@ -11,11 +11,15 @@ from rest_framework.throttling import UserRateThrottle
 #CRUD SERVICCES VIEWSET
 class ServicesViewSet(ModelViewSet):
     
+   
+    permission_classes = [IsAuthenticated]
+    queryset = Services.objects.all()
     serializer_class = ServicesSerializer
 
-    def get_queryset(self):
-        permission_classes=[IsAuthenticated] 
-        return Services.objects.all()
+    throttle_scope = 'users'
+
+    # def get_queryset(self):
+    #     return Services.objects.all()
    
     def get_object(self, queryset=None, **kwargs):
         item_services= self.kwargs.get('pk')

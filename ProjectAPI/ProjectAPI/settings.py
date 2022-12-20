@@ -141,22 +141,4 @@ REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": [
        'django_filters.rest_framework.DjangoFilterBackend'
     ],
-    #  'DEFAULT_THROTTLE_CLASSES': [
-    #     #anónimos
-    #     'rest_framework.throttling.AnonRateThrottle', 
-    #     #usuarios
-    #     'rest_framework.throttling.UserRateThrottle', 
-    #     'rest_framework.throttling.ScopedRateThrottle'
-    # ],
-    # 'DEFAULT_THROTTLE_RATES': {
-    #     'anon': '100/day', #others
-    #     'user': '1000/day', #de payments user
-    #     'generate_coder': '5/minute' #cada 5 min
-    # }
-}
-
-# Permissions:
-# AllowAny
-# IsAuthenticated
-# IsAdminUser
-# IsAuthenticatedOrReadOnly
+     '
