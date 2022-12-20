@@ -51,9 +51,9 @@ class Expired_payments(models.Model):
     payment_user_id = models.ForeignKey(Payment_user,on_delete=models.CASCADE)
     penalty_fee_amount= models.IntegerField()
 
-    def __str__(self):
-       # print(self.payment_user_id.user_id.username)
-        return self.payment_user_id.user_id.username
+    # def __str__(self):
+    #    # print(self.payment_user_id.user_id.username)
+    #     return self.payment_user_id.user_id.username
 
     class Meta:
         db_table = "expired_payments"

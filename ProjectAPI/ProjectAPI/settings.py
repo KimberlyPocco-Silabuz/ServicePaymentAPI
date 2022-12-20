@@ -130,11 +130,33 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "users.User"
 
-# REST_FRAMEWORK = {
-#     'DEFAULT_AUTHENTICATION_CLASSES': [
-#         'rest_framework_simplejwt.authentication.JWTAuthentication',
-#         'rest_framework.permissions.IsAuthenticated',
-#         'rest_framework.permissions.AllowAny',
-#         'rest_framework.permissions.IsAdminUser',
-#     ],
-# }
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+       # 'rest_framework_simplejwt.authentication.JWTAuthentication',
+     #   'rest_framework.permissions.AllowAny',
+    ],
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 100,
+    "DEFAULT_FILTER_BACKENDS": [
+       'django_filters.rest_framework.DjangoFilterBackend'
+    ],
+    #  'DEFAULT_THROTTLE_CLASSES': [
+    #     #anónimos
+    #     'rest_framework.throttling.AnonRateThrottle', 
+    #     #usuarios
+    #     'rest_framework.throttling.UserRateThrottle', 
+    #     'rest_framework.throttling.ScopedRateThrottle'
+    # ],
+    # 'DEFAULT_THROTTLE_RATES': {
+    #     'anon': '100/day', #others
+    #     'user': '1000/day', #de payments user
+    #     'generate_coder': '5/minute' #cada 5 min
+    # }
+}
+
+# Permissions:
+# AllowAny
+# IsAuthenticated
+# IsAdminUser
+# IsAuthenticatedOrReadOnly
