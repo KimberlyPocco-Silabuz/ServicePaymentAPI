@@ -46,6 +46,8 @@ class Payment_userViewSet(ModelViewSet):
     #definir el queryset custom o personalizado
     def get_queryset(self):
         return Payment_user.objects.all()
+        #hace el get y post (create y list)
+        #Allow: GET, POST, HEAD, OPTIONS
         #http://127.0.0.1:8000/services-payment/payment-user/
 
 '''
