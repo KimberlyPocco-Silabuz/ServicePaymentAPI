@@ -23,7 +23,7 @@ schema_view = get_schema_view(
    openapi.Info(
       title="Services API",
       default_version='v1',
-      description="Proyecto ServicesPayment API - TrabajoU5",
+      description="TrabajoU5 / authors:Luis Huanca  & Kimberly Pocco",
       terms_of_service="https://www.google.com/policies/terms/",
       contact=openapi.Contact(email="contact@snippets.local"),
       license=openapi.License(name="BSD License"),
