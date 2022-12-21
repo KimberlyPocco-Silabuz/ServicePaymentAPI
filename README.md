@@ -24,6 +24,6 @@ pip install djangorestframework-simplejwt
 pip install -U drf-yasg
 ```
 
-* [Documentacion]() - Esta es la documentación de la api servicespaymentS
+* [Documentacion](https://documenter.getpostman.com/view/12641570/2s8Z6sbbZY) - Esta es la documentación de la api servicespayments
 
 

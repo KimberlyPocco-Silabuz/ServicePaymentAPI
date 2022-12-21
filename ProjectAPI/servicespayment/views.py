@@ -12,7 +12,7 @@ from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.throttling import UserRateThrottle
 #CRUD SERVICCES VIEWSET
 class ServicesViewSet(ModelViewSet):
-    permission_classes = [IsAuthenticated]
+   # permission_classes = [IsAuthenticated]
     serializer_class = ServicesSerializer
     throttle_scope = 'view_others'
 
@@ -27,7 +27,7 @@ class ServicesViewSet(ModelViewSet):
        
 #CRUD PAYMENT USER VIEWSET se trabaja con cada metodo uno para admin y user respectivamente
 class Payment_userViewSet(ModelViewSet):
-    permission_classes = [IsAuthenticated]
+   # permission_classes = [IsAuthenticated]
     queryset = Payment_user.objects.all()
     serializer_class = Payment_userSerializer
     filter_backends =  [filters.SearchFilter,filters.OrderingFilter]
@@ -86,7 +86,7 @@ class Payment_userViewSet(ModelViewSet):
 
 #CRUD EXPIRED PAYMENTS VIEWSET
 class Expired_paymentsViewSet(ModelViewSet):
-    permission_classes = [IsAuthenticated]
+   # permission_classes = [IsAuthenticated]
     serializer_class = Expired_paymentSerializer
     throttle_scope = 'anon'
     def get_queryset(self):
