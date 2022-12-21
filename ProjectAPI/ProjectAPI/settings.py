@@ -111,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-pe'
 
 TIME_ZONE = 'America/Lima'
 
@@ -161,10 +161,3 @@ REST_FRAMEWORK = {
 }
 
 
-# REST_FRAMEWORK = {
-#     # ...
-#     #aqui podemos agregar una clase personalizada para nuestra paginacion global
-#     'DEFAULT_PAGINATION_CLASS': 'servicespayment.pagination.StandardResultsSetPagination',
-#     #'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-#     #'PAGE_SIZE': 2
-# }
