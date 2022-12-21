@@ -63,13 +63,13 @@ class Payment_userViewSet(ModelViewSet):
         return new_user_payment
 
     def retrieve(self, request, pk=None):
-        todo = get_object_or_404(self.queryset, pk=pk)
-        serializer = Payment_userSerializer(todo)
+        payment = get_object_or_404(self.queryset, pk=pk)
+        serializer = Payment_userSerializer(payment)
         return Response(serializer.data)
 
     def update(self, request, pk=None):
-        todo = get_object_or_404(self.queryset, pk=pk)
-        serializer = Payment_userSerializer(todo, data=request.data)
+        payment = get_object_or_404(self.queryset, pk=pk)
+        serializer = Payment_userSerializer(payment, data=request.data)
 
         if serializer.is_valid():
             serializer.save()
@@ -78,8 +78,8 @@ class Payment_userViewSet(ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def destroy(self, request, pk=None):
-        todo = get_object_or_404(self.queryset, pk=pk)
-        todo.delete()
+        payment = get_object_or_404(self.queryset, pk=pk)
+        payment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 
