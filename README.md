@@ -24,5 +24,3 @@ pip install djangorestframework-simplejwt
 pip install -U drf-yasg
 ```
 
-
-
