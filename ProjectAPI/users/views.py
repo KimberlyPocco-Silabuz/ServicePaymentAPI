@@ -10,6 +10,10 @@ from .tokens import create_jwt_pair_for_user
 from rest_framework import viewsets
 from .models import User
 from django.shortcuts import get_object_or_404
+
+#from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated 
+from rest_framework import permissions
+from rest_framework.throttling import UserRateThrottle
 # Create your views here.
 
 #CON CLASE GENERIC APIVIEW
@@ -53,6 +57,9 @@ class LoginView(APIView):
 
 #SOLO DE LECTURA
 class GetUsers(viewsets.ReadOnlyModelViewSet):
+    #permission_classes = [AllowAny]
+    #throttle_classes = [UserRateThrottle]
+    permission_classes = [permissions.IsAuthenticated]
     serializer_class = GetUserSerializer
     queryset = User.objects.all()
 
