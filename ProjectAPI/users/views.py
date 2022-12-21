@@ -4,17 +4,19 @@ from rest_framework import generics, status
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from rest_framework.viewsets import ModelViewSet
 from .serializers import SignUpSerializer, GetUserSerializer
 from .tokens import create_jwt_pair_for_user
 from rest_framework import viewsets
 from .models import User
+from django.shortcuts import get_object_or_404
 # Create your views here.
 
-
+#CON CLASE GENERIC APIVIEW
 class SignUpView(generics.GenericAPIView):
     serializer_class = SignUpSerializer
 
+    
     def post(self, request: Request):
         data = request.data
 
@@ -29,17 +31,16 @@ class SignUpView(generics.GenericAPIView):
 
         return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-
-class LoginView(APIView):
-
+#CON CLASE APIVIEW
+class LoginView(APIView): 
     def post(self, request: Request):
         email = request.data.get("email")
         password = request.data.get("password")
 
         user = authenticate(email=email, password=password)
+        
         if user is not None:
             tokens = create_jwt_pair_for_user(user)
-
             response = {"message": "Logeado correctamente", "email": email ,"tokens": tokens}
             return Response(data=response, status=status.HTTP_200_OK)
 
@@ -50,7 +51,11 @@ class LoginView(APIView):
         content = {"user": str(request.user), "auth": str(request.auth)}
         return Response(data=content, status=status.HTTP_200_OK)
 
-
+#SOLO DE LECTURA
 class GetUsers(viewsets.ReadOnlyModelViewSet):
     serializer_class = GetUserSerializer
     queryset = User.objects.all()
+
+
+
+     

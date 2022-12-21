@@ -1,9 +1,8 @@
 from django.db import models
 from users.models import User
 
-'''
-modelo servicios trabaja con el user por default de django
-'''
+
+#MODELO  SERVICES
 class Services(models.Model):
     name = models.CharField(max_length=100) 
     description = models.TextField()
@@ -16,9 +15,7 @@ class Services(models.Model):
         db_table = "services"
     
 
-'''
-modelo payment 
-'''
+#MODELO  PAYMENTS USER
 class Payment_user(models.Model):
     @property
     def username(self):
@@ -33,6 +30,8 @@ class Payment_user(models.Model):
     amount = models.IntegerField()
     paymentDate = models.DateField()
     expirationDate = models.DateField()
+    paymentDate = models.DateField()
+    expirationDate = models.DateField()
     
     class Meta:
         db_table = "payment_user"
@@ -40,23 +39,25 @@ class Payment_user(models.Model):
     def __str__(self):
 
         return self.user_id.username + " - " + self.service_id.name
-'''
-modelo expired  payments
-'''
+
+#MODELO EXPIRED PAYMENTS
 class Expired_payments(models.Model):
     @property
     def username(self):
         return self.payment_user_id.user_id.username
 
     @property
-    def user_id(self):
-        return self.payment_user_id.pk
+    def servicename(self):
+        return self.payment_user_id.service_id.name
 
     payment_user_id = models.ForeignKey(Payment_user,on_delete=models.CASCADE)
     penalty_fee_amount= models.IntegerField()
 
+    def user_id(self):
+        return self.payment_user_id.pk
+
     def __str__(self):
-        return self.payment_user_id.paymentDate
+        return str(self.payment_user_id.user_id.username)
 
     class Meta:
         db_table = "expired_payments"

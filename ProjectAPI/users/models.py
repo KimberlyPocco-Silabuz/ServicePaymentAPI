@@ -23,7 +23,6 @@ class CustomUserManager(BaseUserManager):
 
         if extra_fields.get("is_superuser") is not True:
             raise ValueError("El superusuario necesita que is_superuser sea verdadero")
-
         return self.create_user(email=email, password=password, **extra_fields)
 
 class User(AbstractUser):
@@ -34,8 +33,9 @@ class User(AbstractUser):
     REQUIRED_FIELDS = ["username"]
 
     def __str__(self):
-        return self.username
+        return self.email
 
     class Meta:
-        db_table = "users"
+        db_table = "users" 
 
+ 

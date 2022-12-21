@@ -132,6 +132,35 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "users.User"
 
+ 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+         'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ]
+    ,
+    'DEFAULT_PAGINATION_CLASS': 'servicespayment.pagination.StandardResultsSetPagination',
+    "PAGE_SIZE": 100,
+    "DEFAULT_FILTER_BACKENDS": [
+       'django_filters.rest_framework.DjangoFilterBackend',
+    ],
+     'DEFAULT_THROTTLE_CLASSES': [
+
+        'rest_framework.throttling.ScopedRateThrottle',
+        'rest_framework.throttling.AnonRateThrottle', 
+        'rest_framework.throttling.UserRateThrottle', 
+       
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '0/day',
+        'user': '1000/day',
+        'view_other': '2000/day',
+        
+        
+     }
+}
+
+
+
 REST_FRAMEWORK = {
     # ...
     #aqui podemos agregar una clase personalizada para nuestra paginacion global
