@@ -1,4 +1,4 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, logout
 from django.shortcuts import render
 from rest_framework import generics, status
 from rest_framework.request import Request
@@ -11,7 +11,7 @@ from rest_framework import viewsets
 from .models import User
 from django.shortcuts import get_object_or_404
 
-#from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated 
+from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated 
 from rest_framework import permissions
 from rest_framework.throttling import UserRateThrottle
 # Create your views here.
@@ -42,14 +42,18 @@ class LoginView(APIView):
         password = request.data.get("password")
 
         user = authenticate(email=email, password=password)
-        
+        print(user)
         if user is not None:
             tokens = create_jwt_pair_for_user(user)
-            response = {"message": "Logeado correctamente", "email": email ,"tokens": tokens}
+            print(tokens)
+            response = {"message": "Logeado correctamente","data": GetUserSerializer(user).data,"tokens": tokens}
             return Response(data=response, status=status.HTTP_200_OK)
 
         else:
-            return Response(data={"message": "Correo inválido o contraseña incorrecta"})
+            return Response(
+                data={"message": "Correo inválido o contraseña incorrecta"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     def get(self, request: Request):
         content = {"user": str(request.user), "auth": str(request.auth)}
@@ -59,10 +63,12 @@ class LoginView(APIView):
 class GetUsers(viewsets.ReadOnlyModelViewSet):
     #permission_classes = [AllowAny]
     #throttle_classes = [UserRateThrottle]
-    permission_classes = [permissions.IsAuthenticated]
+    #permission_classes = [permissions.IsAuthenticated]
     serializer_class = GetUserSerializer
     queryset = User.objects.all()
 
+class LogoutView(APIView):
+    def post(self, request):
+        logout(request)
 
-
-     
+        return Response(status=status.HTTP_200_OK)
