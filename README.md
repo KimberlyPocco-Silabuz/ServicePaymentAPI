@@ -1,5 +1,4 @@
 # Implementación de API para Servicios de Pago
-_Kimberly Pocco  & Luis Huanca_
 
 Estas instrucciones te permitirán obtener una copia del proyecto en funcionamiento en tu máquina local para propósitos de desarrollo y pruebas.
 
